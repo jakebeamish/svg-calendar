@@ -30,3 +30,7 @@ function keyPressed() {
 function filename() {
     return `${title}_seed=${seed}_${width}x${height}`
 }
+
+function vLine(a, b) {
+    line(a.x, a.y, b.x, b.y)
+}
