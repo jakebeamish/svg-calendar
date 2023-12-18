@@ -18,14 +18,15 @@ function setup() {
 	canvas.style('z-index', -1)
 
     seed = floor(random(1000000))
-    randomSeed(seed)
-    noiseSeed(seed)
     noLoop()
     center = createVector(width/2, height/2)
 }
 
 function draw() {
     clear()
+    document.title = `${title} ${seed}`;
+    randomSeed(seed)
+    noiseSeed(seed)
 
     if (darkMode) {
         background(colours.dark)
@@ -35,9 +36,7 @@ function draw() {
         stroke(colours.light)
     }
 
-    document.title = title;
-    randomSeed(seed)
-    noiseSeed(seed)
+
 }
 
 function keyPressed() {
@@ -47,15 +46,10 @@ function keyPressed() {
     if (keyCode === 37) seed--; redraw()
 
     // Press 'S' key to save SVG file
-    if (keyCode === 83) {
-        save(`${filename()}.svg`)
-    }
+    if (keyCode === 83) save(`${filename()}.svg`)
 
     // Press 'D' key to toggle dark mode
-    if (keyCode === 68) {
-        darkMode = !darkMode;
-        redraw()
-    }
+    if (keyCode === 68) darkMode = !darkMode; redraw()
 }
 
 function filename() {
