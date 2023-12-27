@@ -24,6 +24,7 @@ function setup() {
 
 function draw() {
     clear()
+    console.log(`Drawing seed ${seed}, ${width} by ${height}`)
     document.title = `${title} ${seed}`;
     randomSeed(seed)
     noiseSeed(seed)
@@ -59,3 +60,7 @@ function filename() {
 function vLine(a, b) {
     line(a.x, a.y, b.x, b.y)
 }
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+  }
