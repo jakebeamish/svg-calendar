@@ -1,8 +1,11 @@
-const title = 'Untitled'
+const title = 'January_2024_cal'
 
 let seed;
 let center;
-let darkMode;
+let darkMode = true;
+
+let year = 2024;
+let month = 2;
 
 const colours = {
     light: 230,
@@ -19,6 +22,7 @@ function setup() {
 
     seed = floor(random(1000000))
     noLoop()
+    noFill()
     center = createVector(width/2, height/2)
 }
 
@@ -34,7 +38,41 @@ function draw() {
         stroke(colours.light)
     } else {
         background(colours.light)
-        stroke(colours.light)
+        stroke(colours.dark)
+    }
+
+    let boxWidth = 100;
+    let boxHeight = 100;
+
+    // console.log()
+    // new Date(year, month, 0).getDate();
+
+    const startDate = new Date(year, month - 1, 1)
+    const endDate = new Date(year, month, 0)
+    console.log(startDate, endDate)
+    const daysInMonth = endDate.getDate();
+    const startDay = ( 7 + (startDate.getDay() - 1)) % 7;
+    console.log(daysInMonth, startDay)
+    // console.log(date.getDate(), (date.getDa)y() + 1 % 7))
+    let counter = 1;
+    rectMode(CENTER)
+    for (let j = 0; j < 6; j++) {
+        for (let i = 0; i < 7; i++) {
+            let x = center.x - (boxWidth * 3.5) + (i+0.5) * boxWidth;
+            let y = center.y - (boxHeight * 3) + j * boxHeight
+            if ((i >= (startDay) || j > 0 )&& counter <= daysInMonth) {
+            // textAlign(LEFT, TOP)
+                text(counter, x - boxWidth * 0.45, y - boxHeight * 0.35)
+            rect(
+                x,
+                y,
+                boxWidth, boxHeight)
+                counter++;
+            }
+        }
+            
+
+        
     }
 
 
