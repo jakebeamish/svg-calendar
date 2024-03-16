@@ -1,11 +1,11 @@
-const title = 'January_2024_cal'
-
 let seed;
 let center;
-let darkMode = true;
+let darkMode = false;
 
 let year = 2024;
-let month = 2;
+let month = 4;
+
+
 
 const colours = {
     light: 230,
@@ -27,9 +27,9 @@ function setup() {
 }
 
 function draw() {
+    let title = `${year} ${month} calendar`;
     clear()
-    console.log(`Drawing seed ${seed}, ${width} by ${height}`)
-    document.title = `${title} ${seed}`;
+    document.title = title;
     randomSeed(seed)
     noiseSeed(seed)
 
@@ -44,16 +44,12 @@ function draw() {
     let boxWidth = 100;
     let boxHeight = 100;
 
-    // console.log()
-    // new Date(year, month, 0).getDate();
-
     const startDate = new Date(year, month - 1, 1)
     const endDate = new Date(year, month, 0)
-    console.log(startDate, endDate)
     const daysInMonth = endDate.getDate();
     const startDay = ( 7 + (startDate.getDay() - 1)) % 7;
-    console.log(daysInMonth, startDay)
-    // console.log(date.getDate(), (date.getDa)y() + 1 % 7))
+
+    
     let counter = 1;
     rectMode(CENTER)
     for (let j = 0; j < 6; j++) {
@@ -61,7 +57,6 @@ function draw() {
             let x = center.x - (boxWidth * 3.5) + (i+0.5) * boxWidth;
             let y = center.y - (boxHeight * 3) + j * boxHeight
             if ((i >= (startDay) || j > 0 )&& counter <= daysInMonth) {
-            // textAlign(LEFT, TOP)
                 text(counter, x - boxWidth * 0.45, y - boxHeight * 0.35)
             rect(
                 x,
@@ -70,29 +65,41 @@ function draw() {
                 counter++;
             }
         }
-            
-
-        
     }
-
-
 }
 
 function keyPressed() {
 
     // Press arrow keys to change the seed
-    if (keyCode === 39) seed++; redraw()
-    if (keyCode === 37) seed--; redraw()
+    if (keyCode === 39) {
+        if (month == 12) {
+            month = 1;
+            year++;
+        } else {
+            month++;
+        }
+
+        redraw();
+    }
+    if (keyCode === 37) {
+        if (month == 1) {
+            month = 12;
+            year--;
+        } else {
+            month--;
+        }
+        redraw()
+    }
 
     // Press 'S' key to save SVG file
     if (keyCode === 83) save(`${filename()}.svg`)
 
     // Press 'D' key to toggle dark mode
-    if (keyCode === 68) darkMode = !darkMode; redraw()
+    // if (keyCode === 68) darkMode = !darkMode; redraw()
 }
 
 function filename() {
-    return `${title}_seed=${seed}_${width}x${height}`
+    return `${year}_${month}_calendar`
 }
 
 function vLine(a, b) {
