@@ -10,51 +10,58 @@ function setup() {
     canvas.position(0, 0)
 	canvas.style('position', 'fixed')
 	canvas.style('z-index', -1)
+    noLoop();
+    noFill();
 
-    noLoop()
-    noFill()
-    centre = createVector(width/2, height/2)
 }
 
 function draw() {
     let title = `${year} ${month} calendar`;
     clear()
     document.title = title;
+    centre = createVector(width/2, height/2);
 
-    let boxWidth = 100;
-    let boxHeight = 100;
+    const boxWidth = width / 12;
 
-    const startDate = new Date(year, month - 1, 1)
-    const endDate = new Date(year, month, 0)
+    drawCalendar(year, month, centre, boxWidth, boxWidth);
+}
+
+function drawCalendar(year, month, centre, boxWidth, boxHeight) {
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0);
     const daysInMonth = endDate.getDate();
-    const startDay = ( 7 + (startDate.getDay() - 1)) % 7;
+    const daysInWeek = 7;
+    const startDay = startDate.getDay() - 1; // Adjusted to start from 1 (Monday)
 
-    
+    rectMode(CENTER);
     let counter = 1;
-    rectMode(CENTER)
-    for (let j = 0; j < 6; j++) {
-        for (let i = 0; i < 7; i++) {
-            let x = centre.x - (boxWidth * 3.5) + (i+0.5) * boxWidth;
-            let y = centre.y - (boxHeight * 3) + j * boxHeight
-            if ((i >= (startDay) || j > 0 )&& counter <= daysInMonth) {
-                push();
-                fill(0)
-                text(counter, x - boxWidth * 0.45, y - boxHeight * 0.35)
-                pop();
-                
-                rect(
-                x,
-                y,
-                boxWidth, boxHeight)
+
+    for (let j = 0; counter <= daysInMonth; j++) {
+        for (let i = 0; i < daysInWeek; i++) {
+            const x = centre.x - (boxWidth * daysInWeek * 0.5) + (i + 0.5) * boxWidth;
+            const y = centre.y - (boxHeight * 3) + j * boxHeight;
+
+            if ((j > 0 || i >= startDay) && counter <= daysInMonth) {
+                drawCell(x, y, counter, boxWidth, boxHeight);
                 counter++;
             }
         }
     }
 }
 
+function drawCell(x, y, day, width, height) {
+    push();
+    fill(0);
+    textSize(width/8);
+    text(day, x - width * 0.45, y - height * 0.35);
+    pop();
+    rect(x, y, width, height);
+}
+
+
 function keyPressed() {
 
-    // Press arrow keys to change the seed
+    // Press arrow keys to change the month
     if (keyCode === 39) {
         if (month == 12) {
             month = 1;
@@ -62,9 +69,9 @@ function keyPressed() {
         } else {
             month++;
         }
-
         redraw();
     }
+
     if (keyCode === 37) {
         if (month == 1) {
             month = 12;
@@ -72,22 +79,15 @@ function keyPressed() {
         } else {
             month--;
         }
-        redraw()
+        redraw();
     }
 
     // Press 'S' key to save SVG file
     if (keyCode === 83) save(`${filename()}.svg`)
-
-    // Press 'D' key to toggle dark mode
-    // if (keyCode === 68) darkMode = !darkMode; redraw()
 }
 
 function filename() {
     return `${year}_${month}_calendar`
-}
-
-function vLine(a, b) {
-    line(a.x, a.y, b.x, b.y)
 }
 
 function windowResized() {
