@@ -22,15 +22,36 @@ function draw() {
     const boxWidth = 80;
     const boxHeight = boxWidth;
 
-    drawTitle(centre.x, centre.y - boxHeight * 4, year, month)
+    drawTitle(centre.x, centre.y - boxHeight * 4, year, month);
+    drawDaysOfWeek(centre.x, centre.y - boxHeight * 3.6, boxWidth);
     drawCalendar(year, month, centre, boxWidth, boxHeight);
 }
+
+function drawDaysOfWeek(x, y, boxWidth) {
+    for (const [index, value] of daysOfWeek.entries()) {
+        push();
+        // translate(centre.x - (boxWidth * daysInWeek * 0.5) + (index + 0.5) * boxWidth, 100);
+        translate(x - (boxWidth * (daysInWeek * 0.5 - 0.5)) + (index * boxWidth), y)
+        noFill();
+        stroke(0);
+        strokeWeight(1);
+        scale(0.4)
+        P5.hershey.putText(`${value}`, {
+            align: "center"
+        })
+        pop();
+
+    }
+}
+
+const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+const daysInWeek = daysOfWeek.length;
+
 
 function drawCalendar(year, month, centre, boxWidth, boxHeight) {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0);
     const daysInMonth = endDate.getDate();
-    const daysInWeek = 7;
     const startDay = startDate.getDay() - 1; // Adjusted to start from 1 (Monday)
 
     rectMode(CENTER);
