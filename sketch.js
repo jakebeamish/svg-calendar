@@ -1,17 +1,8 @@
 let seed;
-let center;
-let darkMode = false;
+let centre;
 
 let year = 2024;
 let month = 4;
-
-
-
-const colours = {
-    light: 230,
-    dark: 12
-}
-
 
 
 function setup() {
@@ -20,26 +11,15 @@ function setup() {
 	canvas.style('position', 'fixed')
 	canvas.style('z-index', -1)
 
-    seed = floor(random(1000000))
     noLoop()
     noFill()
-    center = createVector(width/2, height/2)
+    centre = createVector(width/2, height/2)
 }
 
 function draw() {
     let title = `${year} ${month} calendar`;
     clear()
     document.title = title;
-    randomSeed(seed)
-    noiseSeed(seed)
-
-    if (darkMode) {
-        background(colours.dark)
-        stroke(colours.light)
-    } else {
-        background(colours.light)
-        stroke(colours.dark)
-    }
 
     let boxWidth = 100;
     let boxHeight = 100;
@@ -54,11 +34,15 @@ function draw() {
     rectMode(CENTER)
     for (let j = 0; j < 6; j++) {
         for (let i = 0; i < 7; i++) {
-            let x = center.x - (boxWidth * 3.5) + (i+0.5) * boxWidth;
-            let y = center.y - (boxHeight * 3) + j * boxHeight
+            let x = centre.x - (boxWidth * 3.5) + (i+0.5) * boxWidth;
+            let y = centre.y - (boxHeight * 3) + j * boxHeight
             if ((i >= (startDay) || j > 0 )&& counter <= daysInMonth) {
+                push();
+                fill(0)
                 text(counter, x - boxWidth * 0.45, y - boxHeight * 0.35)
-            rect(
+                pop();
+                
+                rect(
                 x,
                 y,
                 boxWidth, boxHeight)
