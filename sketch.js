@@ -4,14 +4,30 @@ let centre;
 let year = 2024;
 let month = 4;
 
+let options = {
+    "Year": 2024,
+    "Month": 4,
+    "Title": true,
+    "DaysOfWeek": true,
+    "boxWidth": 80
+}
+
+const gui = new dat.GUI();
+
 function setup() {
     canvas = createCanvas(windowWidth, windowHeight, SVG)
     canvas.position(0, 0)
 	canvas.style('position', 'fixed')
 	canvas.style('z-index', -1);
     canvas.parent("canvas-container");
-    noLoop();
+    // noLoop();
     noFill();
+
+    gui.add(options, "Year", 2000, 2050, 1).listen();
+    gui.add(options, "Month", 1, 12, 1).listen();
+    gui.add(options, "Title");
+    gui.add(options, "DaysOfWeek");
+    gui.add(options, "boxWidth", 20, 120, 1)
 }
 
 function draw() {
@@ -23,13 +39,19 @@ function draw() {
 
 
     // const boxWidth = width > 960 ? width/12 : 80;
-    const boxWidth = 80;
+    const boxWidth = options["boxWidth"];
     const boxHeight = boxWidth;
 
     // scale(0.9)
-    drawTitle(centre.x, centre.y - boxHeight * 4, year, month);
-    drawDaysOfWeek(centre.x, centre.y - boxHeight * 3.6, boxWidth);
-    drawCalendar(year, month, centre, boxWidth, boxHeight);
+    if (options["Title"]) {
+        drawTitle(centre.x, centre.y - boxHeight * 4, options["Year"], options["Month"]);
+    }
+    
+    if (options["DaysOfWeek"]) {
+        drawDaysOfWeek(centre.x, centre.y - boxHeight * 3.6, boxWidth);
+    }
+
+    drawCalendar(options["Year"], options["Month"], centre, boxWidth, boxHeight);
 }
 
 function drawDaysOfWeek(x, y, boxWidth) {
@@ -107,21 +129,21 @@ function keyPressed() {
 
     // Press arrow keys to change the month
     if (keyCode === 39) {
-        if (month == 12) {
-            month = 1;
-            year++;
+        if (options["Month"] == 12) {
+            options["Month"] = 1;
+            options["Year"]++;
         } else {
-            month++;
+            options["Month"]++;
         }
         redraw();
     }
 
     if (keyCode === 37) {
-        if (month == 1) {
-            month = 12;
-            year--;
+        if (options["Month"] == 1) {
+            options["Month"] = 12;
+            options["Year"]--;
         } else {
-            month--;
+            options["Month"]--;
         }
         redraw();
     }
