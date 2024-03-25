@@ -8,7 +8,8 @@ function setup() {
     canvas = createCanvas(windowWidth, windowHeight, SVG)
     canvas.position(0, 0)
 	canvas.style('position', 'fixed')
-	canvas.style('z-index', -1)
+	canvas.style('z-index', -1);
+    canvas.parent("canvas-container");
     noLoop();
     noFill();
 }
@@ -17,11 +18,15 @@ function draw() {
     let title = `${year} ${month} calendar`;
     clear()
     document.title = title;
-    centre = createVector(width/2, height/2);
+    centre = createVector(width * 0.5, height * 0.6);
 
+
+
+    // const boxWidth = width > 960 ? width/12 : 80;
     const boxWidth = 80;
     const boxHeight = boxWidth;
 
+    // scale(0.9)
     drawTitle(centre.x, centre.y - boxHeight * 4, year, month);
     drawDaysOfWeek(centre.x, centre.y - boxHeight * 3.6, boxWidth);
     drawCalendar(year, month, centre, boxWidth, boxHeight);
