@@ -26,8 +26,8 @@ function setup() {
     gui.add(options, "Year", 2000, 2050, 1).listen();
     gui.add(options, "Month", 1, 12, 1).listen();
     gui.add(options, "Title");
-    gui.add(options, "DaysOfWeek");
-    gui.add(options, "boxWidth", 20, 120, 1)
+    gui.add(options, "DaysOfWeek").name("Day Names");
+    gui.add(options, "boxWidth", 20, 120, 1).name("Box Width");
 }
 
 function draw() {
