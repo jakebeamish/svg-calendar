@@ -9,7 +9,7 @@ let options = {
     "Month": 4,
     "Title": true,
     "DaysOfWeek": true,
-    "boxWidth": 80
+    "boxWidth": 50
 }
 
 const gui = new dat.GUI();
@@ -20,7 +20,6 @@ function setup() {
 	canvas.style('position', 'fixed')
 	canvas.style('z-index', -1);
     canvas.parent("canvas-container");
-    // noLoop();
     noFill();
 
     gui.add(options, "Year", 2000, 2050, 1).listen();
@@ -38,7 +37,7 @@ function draw() {
 
 
 
-    // const boxWidth = width > 960 ? width/12 : 80;
+    options["boxWidth"] = width > 500 ? width/12 : 50;
     const boxWidth = options["boxWidth"];
     const boxHeight = boxWidth;
 
@@ -62,7 +61,7 @@ function drawDaysOfWeek(x, y, boxWidth) {
         noFill();
         stroke(0);
         strokeWeight(1);
-        scale(0.4)
+        scale(0.3)
         P5.hershey.putText(`${value}`, {
             align: "center"
         })
@@ -103,7 +102,7 @@ function drawCell(x, y, day, width, height) {
     noFill();
     stroke(0);
     strokeWeight(1);
-    scale(0.4)
+    scale(0.3)
     P5.hershey.putText(`${day}`)
     pop();
     rect(x, y, width, height);
@@ -117,7 +116,7 @@ function drawTitle(x, y, year, month) {
     noFill();
     stroke(0);
     strokeWeight(1);
-    scale(1.5)
+    scale(1)
     P5.hershey.putText(`${monthString} ${year}`, {
         cmap: FONT_HERSHEY.SIMPLEX,
         align: "center"
