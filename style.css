@@ -1,6 +1,11 @@
 h1, p {
     font-family: 'Courier New', Courier, monospace;
     max-width: 200px;
-    text-align: center;
-    margin: auto;
+    text-align: left;
+    /* margin: auto; */
+    /* display:; */
 }
+
+/* .canvas-container { */
+    /* margin: 0; */
+/* } */

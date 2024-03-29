@@ -4,6 +4,8 @@ let centre;
 let year = 2024;
 let month = 4;
 
+let h;
+
 let options = {
     "Year": 2024,
     "Month": 4,
@@ -15,8 +17,9 @@ let options = {
 const gui = new dat.GUI();
 
 function setup() {
-    canvas = createCanvas(windowWidth, windowHeight, SVG)
-    canvas.position(0, 0)
+
+    canvas = createCanvas(windowWidth,  options["boxWidth"] * 10, SVG)
+    // canvas.position(0, 0)
 	canvas.style('position', 'fixed')
 	canvas.style('z-index', -1);
     canvas.parent("canvas-container");
@@ -37,7 +40,7 @@ function draw() {
 
 
 
-    options["boxWidth"] = width > 500 ? width/12 : 50;
+    // options["boxWidth"] = width > 500 ? width/12 : 50;
     const boxWidth = options["boxWidth"];
     const boxHeight = boxWidth;
 
@@ -124,6 +127,15 @@ function drawTitle(x, y, year, month) {
     pop();
 }
 
+function makeYearCalendar(year, centre, boxWidth, boxHeight) {
+    // for (let month = 0; month < 12; month++) {
+        // clear();
+        drawCalendar(year, month, centre, boxWidth, boxHeight);
+        save(`${filename()}.svg`)
+
+    // }
+}
+
 function keyPressed() {
 
     // Press arrow keys to change the month
@@ -156,5 +168,6 @@ function filename() {
 }
 
 function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+    // resizeCanvas(windowWidth, o);
+    // redraw()
   }
