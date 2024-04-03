@@ -10,16 +10,43 @@ let options = {
     "Year": 2024,
     "Month": 4,
     "Title": true,
+    "Title size": 1,
     "DaysOfWeek": true,
-    "boxWidth": 50
+    "Day Names size": 1,
+    "boxWidth": 100,
+    "Font": "Plain",
+
+
 }
 
 const gui = new dat.GUI();
 
+const hersheyFonts = {
+    "Plain": FONT_HERSHEY.PLAIN,
+    "Simplex": FONT_HERSHEY.SIMPLEX,
+    "Duplex": FONT_HERSHEY.DUPLEX,
+    "Triplex": FONT_HERSHEY.TRIPLEX,
+    "Complex": FONT_HERSHEY.COMPLEX,
+    "Complex Small": FONT_HERSHEY.COMPLEX_SMALL,
+    "Gothic English": FONT_HERSHEY.GOTHIC_ENGLISH_TRIPLEX,
+    "Gothic German": FONT_HERSHEY.GOTHIC_GERMAN_TRIPLEX,
+    "Gothic Italian": FONT_HERSHEY.GOTHIC_ITALIAN_TRIPLEX,
+    "Greek Plain": FONT_HERSHEY.GREEK_PLAIN,
+    "Greek Simplex": FONT_HERSHEY.GREEK_SIMPLEX,
+    "Greek Complex": FONT_HERSHEY.GREEK_COMPLEX,
+    "Greek Complex Small": FONT_HERSHEY.GREEK_COMPLEX_SMALL,
+    "Italic Complex": FONT_HERSHEY.ITALIC_COMPLEX,
+    "Italic Complex Small": FONT_HERSHEY.ITALIC_COMPLEX_SMALL,
+    "Italic Triplex": FONT_HERSHEY.ITALIC_TRIPLEX,
+    "Script Simplex": FONT_HERSHEY.SCRIPT_SIMPLEX,
+    "Script Complex": FONT_HERSHEY.SCRIPT_COMPLEX,
+    "Cyrillic Complex": FONT_HERSHEY.CYRILLIC_COMPLEX
+};
+
 function setup() {
 
-    canvas = createCanvas(windowWidth,  options["boxWidth"] * 10, SVG)
-    // canvas.position(0, 0)
+    canvas = createCanvas(windowWidth,  windowHeight, SVG)
+    canvas.position(0, 0)
 	canvas.style('position', 'fixed')
 	canvas.style('z-index', -1);
     canvas.parent("canvas-container");
@@ -28,8 +55,14 @@ function setup() {
     gui.add(options, "Year", 2000, 2050, 1).listen();
     gui.add(options, "Month", 1, 12, 1).listen();
     gui.add(options, "Title");
+    gui.add(options, "Title size", 0, 4)
     gui.add(options, "DaysOfWeek").name("Day Names");
+    gui.add(options, "Day Names size", 0, 4)
     gui.add(options, "boxWidth", 20, 120, 1).name("Box Width");
+
+    gui.add(options, "Font", Object.keys(hersheyFonts)).listen();
+
+
 }
 
 function draw() {
@@ -64,8 +97,9 @@ function drawDaysOfWeek(x, y, boxWidth) {
         noFill();
         stroke(0);
         strokeWeight(1);
-        scale(0.3)
+        scale(options["Day Names size"])
         P5.hershey.putText(`${value}`, {
+            cmap: hersheyFonts[options.Font],
             align: "center"
         })
         pop();
@@ -106,7 +140,9 @@ function drawCell(x, y, day, width, height) {
     stroke(0);
     strokeWeight(1);
     scale(0.3)
-    P5.hershey.putText(`${day}`)
+    P5.hershey.putText(`${day}`, {
+        cmap: hersheyFonts[options.Font]
+    })
     pop();
     rect(x, y, width, height);
 }
@@ -119,9 +155,9 @@ function drawTitle(x, y, year, month) {
     noFill();
     stroke(0);
     strokeWeight(1);
-    scale(1)
+    scale(options["Title size"])
     P5.hershey.putText(`${monthString} ${year}`, {
-        cmap: FONT_HERSHEY.SIMPLEX,
+        cmap: hersheyFonts[options.Font],
         align: "center"
     });
     pop();
